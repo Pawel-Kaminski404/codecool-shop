@@ -38,7 +38,7 @@ namespace Codecool.CodecoolShop.Controllers
         }
 
         [Route("/getProducts")]
-        public IActionResult TopNewsAsync([FromQuery] string category)
+        public IActionResult GetProducts([FromQuery] string category)
         {
             IEnumerable<Product> products = ProductService.GetProductsForCategory(category);
             string jsonString = JsonSerializer.Serialize(products);

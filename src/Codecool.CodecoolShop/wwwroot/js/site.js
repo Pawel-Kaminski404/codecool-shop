@@ -3,10 +3,10 @@
 
 // Write your JavaScript code.
 
-async function Category()
+async function RefreshProducts()
 {
     let category = document.getElementById("categories").value;
-    await fetch(`https://localhost:44368/getProducts?category=${category}`)
+    await fetch(`/getProducts?category=${category}`)
         .then(response => response.json())
         .then(data => DisplayContent(data));
 }
