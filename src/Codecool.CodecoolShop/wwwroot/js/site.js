@@ -2,3 +2,7 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+async function addToCart(id){
+    await fetch(`/addProduct?id=${id}`);
+}
