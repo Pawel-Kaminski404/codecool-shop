@@ -39,7 +39,7 @@
                         <option value="@item.Name">@item.Name</option>;
                     }
                 </select>
-                <button type="button" onclick="RefreshProducts()">odświerzb</button>
+                <button type="button" onclick="RefreshProducts('category')">odświerzb</button>
         </form>
         <form>
             <label for="supliers">Choose a suplier:</label>
@@ -50,7 +50,7 @@
                         <option value="@item.Name">@item.Name</option>;
                     }
                 </select>
-                <button type="button" onclick="RefreshProductsBySuplier()">odświerzb</button>
+                <button type="button" onclick="RefreshProducts('supplier')">odświerzb</button>
         </form>
         <main role="main" class="pb-3">
             @RenderBody()

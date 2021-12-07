@@ -38,17 +38,17 @@ namespace Codecool.CodecoolShop.Controllers
         }
 
         [Route("/getProducts")]
-        public IActionResult GetProducts([FromQuery] string category)
+        public IActionResult GetProducts([FromQuery] string filterBy, [FromQuery] string filter)
         {
-            IEnumerable<Product> products = ProductService.GetProductsForCategory(category);
-            string jsonString = JsonSerializer.Serialize(products);
-            return Ok(jsonString);
-        }
-
-        [Route("/getProductsBySuplier")]
-        public IActionResult GetProductsBySuplier([FromQuery] string suplier)
-        {
-            IEnumerable<Product> products = ProductService.GetProductsForSupplier(suplier);
+            IEnumerable<Product> products;
+            if (filterBy == "category")
+            {
+                products = ProductService.GetProductsForCategory(filter);
+            }
+            else
+            {
+                products = ProductService.GetProductsForSupplier(filter);
+            }
             string jsonString = JsonSerializer.Serialize(products);
             return Ok(jsonString);
         }

@@ -3,31 +3,27 @@
 
 // Write your JavaScript code.
 
-async function RefreshProducts()
+async function RefreshProducts(filter)
 {
-    let category = document.getElementById("categories").value;
-    await fetch(`/getProducts?category=${category}`)
+    let url = "";
+    if (filter == 'category') {
+        let category = document.getElementById("categories").value;
+        url = `/getProducts?filter=${category}&filterBy=category`;
+    }
+    else {
+        let suplier = document.getElementById("supliers").value;
+        url = `/getProducts?filter=${suplier}&filterBy=supplier`;
+    }
+    await fetch(url)
         .then(response => response.json())
         .then(data => DisplayContent(data));
 }
-
-async function RefreshProductsBySuplier() {
-    let suplier = document.getElementById("supliers").value;
-    await fetch(`/getProductsBySuplier?suplier=${suplier}`)
-        .then(response => response.json())
-        .then(data => DisplayContent(data));
-}
-
-
-
 
 async function DisplayContent(data)
 {
     document.getElementById("productContainer").innerHTML = "";
-    console.log(data);
     for (item in data)
     {
-        console.log(data[item]);
         document.getElementById("productContainer").innerHTML += `<div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 350px">
             <div class="card">
                 <img src="img/${data[item].Name}.jpg" style="height: 50%; width: 50%; align-self: center; padding-top: 10px">
