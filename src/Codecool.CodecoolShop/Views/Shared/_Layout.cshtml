@@ -30,6 +30,28 @@
         </nav>
     </header>
     <div class="container">
+        <form>
+            <label for="categories">Choose a category:</label>
+                <select id="categories">
+                    <option value="All">All</option>;
+                    @foreach (var item in ProductCategoryDaoMemory.GetInstance().GetAll())
+                    {
+                        <option value="@item.Name">@item.Name</option>;
+                    }
+                </select>
+                <button type="button" onclick="RefreshProducts('category')">odświerzb</button>
+        </form>
+        <form>
+            <label for="supliers">Choose a suplier:</label>
+                <select id="supliers">
+                    <option value="All">All</option>;
+                    @foreach (var item in SupplierDaoMemory.GetInstance().GetAll())
+                    {
+                        <option value="@item.Name">@item.Name</option>;
+                    }
+                </select>
+                <button type="button" onclick="RefreshProducts('supplier')">odświerzb</button>
+        </form>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

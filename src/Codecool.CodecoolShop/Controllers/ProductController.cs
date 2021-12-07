@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Codecool.CodecoolShop.Models;
 using Codecool.CodecoolShop.Services;
+using System.Text.Json;
 
 namespace Codecool.CodecoolShop.Controllers
 {
@@ -34,6 +35,22 @@ namespace Codecool.CodecoolShop.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        [Route("/getProducts")]
+        public IActionResult GetProducts([FromQuery] string filterBy, [FromQuery] string filter)
+        {
+            IEnumerable<Product> products;
+            if (filterBy == "category")
+            {
+                products = ProductService.GetProductsForCategory(filter);
+            }
+            else
+            {
+                products = ProductService.GetProductsForSupplier(filter);
+            }
+            string jsonString = JsonSerializer.Serialize(products);
+            return Ok(jsonString);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
