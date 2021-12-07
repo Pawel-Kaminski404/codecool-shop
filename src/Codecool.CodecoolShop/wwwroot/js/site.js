@@ -4,5 +4,5 @@
 // Write your JavaScript code.
 
 async function addToCart(id){
-    await fetch(`/addProduct?id=${id}`);
+    await fetch(`/addProduct?id=${id}&userId=1`);
 }
