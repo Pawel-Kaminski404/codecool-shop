@@ -11,6 +11,15 @@ async function RefreshProducts()
         .then(data => DisplayContent(data));
 }
 
+async function RefreshProductsBySuplier() {
+    let suplier = document.getElementById("supliers").value;
+    await fetch(`/getProductsBySuplier?suplier=${suplier}`)
+        .then(response => response.json())
+        .then(data => DisplayContent(data));
+}
+
+
+
 
 async function DisplayContent(data)
 {

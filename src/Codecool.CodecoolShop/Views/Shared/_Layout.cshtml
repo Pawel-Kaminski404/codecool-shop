@@ -41,6 +41,17 @@
                 </select>
                 <button type="button" onclick="RefreshProducts()">odświerzb</button>
         </form>
+        <form>
+            <label for="supliers">Choose a suplier:</label>
+                <select id="supliers">
+                    <option value="All">All</option>;
+                    @foreach (var item in SupplierDaoMemory.GetInstance().GetAll())
+                    {
+                        <option value="@item.Name">@item.Name</option>;
+                    }
+                </select>
+                <button type="button" onclick="RefreshProductsBySuplier()">odświerzb</button>
+        </form>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

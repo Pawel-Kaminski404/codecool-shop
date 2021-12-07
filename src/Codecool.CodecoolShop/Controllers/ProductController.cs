@@ -45,6 +45,14 @@ namespace Codecool.CodecoolShop.Controllers
             return Ok(jsonString);
         }
 
+        [Route("/getProductsBySuplier")]
+        public IActionResult GetProductsBySuplier([FromQuery] string suplier)
+        {
+            IEnumerable<Product> products = ProductService.GetProductsForSupplier(suplier);
+            string jsonString = JsonSerializer.Serialize(products);
+            return Ok(jsonString);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
