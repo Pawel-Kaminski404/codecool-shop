@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.Json;
 using Codecool.CodecoolShop.Daos.Implementations;
 using Codecool.CodecoolShop.Models;
 using Codecool.CodecoolShop.Services;
@@ -28,8 +29,10 @@ namespace Codecool.CodecoolShop.Controllers
             }
             cart.GetListOfProducts().Add(product);
             ReadCart(cart.GetListOfProducts());
-
-            return Ok();
+            var json1 = JsonSerializer.Serialize(cart.GetListOfProducts().Count);
+            var json2 = id;
+            var jsonString = "[" + json1 + "," + json2 + "]";
+            return Ok(jsonString);
         }
 
         private void ReadCart(List<Product> carts)
