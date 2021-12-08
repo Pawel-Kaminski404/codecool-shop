@@ -36,19 +36,9 @@ namespace Codecool.CodecoolShop.Controllers
                 }
             }
             cart.GetListOfProducts().Add(product);
-            ReadCart(cart.GetListOfProducts());
-
             return Ok();
         }
 
-        private void ReadCart(List<Product> carts)
-        {
-            foreach (var product in carts)
-            {
-                Console.WriteLine(product.Name);
-            }
-
-        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
