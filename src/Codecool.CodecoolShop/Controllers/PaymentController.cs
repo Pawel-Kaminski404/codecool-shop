@@ -20,11 +20,11 @@ namespace Codecool.CodecoolShop.Controllers
         }
         public IActionResult Index([FromQuery] int userId)
         {
-            if (userId == 0)
+            Cart cart = _cartService.GetCartByUserId(userId);
+            if (cart == null)
             {
                 return RedirectToAction("ErrorPage");
             }
-            Cart cart = _cartService.GetCartByUserId(userId);
             return View(cart.GetListOfProducts());
         }
 

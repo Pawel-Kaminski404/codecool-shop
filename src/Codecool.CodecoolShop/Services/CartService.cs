@@ -27,6 +27,10 @@ namespace Codecool.CodecoolShop.Services
         public Cart GetCartByUserId(int userId)
         {
             User user = _userDao.Get(userId);
+            if (user == null)
+            {
+                return null;
+            }
             return user.GetCart();
         }
     }
