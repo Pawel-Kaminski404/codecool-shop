@@ -4,8 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Codecool.CodecoolShop</title>
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+        </asp:ContentPlaceHolder>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+
 </head>
 <body>
     <header>
@@ -25,7 +29,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Product"><span id="shoppingCart"><img src="img/ShoppingCartIcon.png" style="width: 20px; height: 20px"/> 0</span></a>
+                            <a class="nav-link text-dark" onclick="openCartModal()" asp-area="" asp-controller="Product" asp-action="Cart"><span id="shoppingCart"><img src="/img/ShoppingCartIcon.png" style="width: 20px; height: 20px"/> 0</span></a>
                         </li>
                     </ul>
                 </div>
