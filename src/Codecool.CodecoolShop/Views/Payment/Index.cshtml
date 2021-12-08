@@ -1,0 +1,18 @@
+@{
+    ViewData["Title"] = "Payment";
+}
+
+@model List<Codecool.CodecoolShop.Models.Product>
+
+<div class="container">
+   Dupsko
+
+    @foreach (var element in Model)
+    {
+        <div>
+            @element.Name
+        </div>
+    }
+
+
+</div>

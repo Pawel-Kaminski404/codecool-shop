@@ -23,6 +23,11 @@ namespace Codecool.CodecoolShop.Services
             Cart cart = user.GetCart();
             cart.GetListOfProducts().Add(product);
         }
-    }
 
+        public Cart GetCartByUserId(int userId)
+        {
+            User user = _userDao.Get(userId);
+            return user.GetCart();
+        }
+    }
 }
