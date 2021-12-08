@@ -6,3 +6,7 @@
 async function addToCart(id){
     await fetch(`/addProduct?id=${id}&userId=1`);
 }
+
+function PaymentSelectChange() {
+    console.log(document.getElementById("paymentOption").value);
+}

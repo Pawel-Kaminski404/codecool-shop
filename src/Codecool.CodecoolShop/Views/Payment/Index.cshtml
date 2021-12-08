@@ -5,30 +5,98 @@
 @model List<Codecool.CodecoolShop.Models.Product>
 
 <div class="container">
-   Your cart 8===D
-    @foreach (var element in Model)
-    {
-        <div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 350px">
-            <div class="card">
-                <img src="/img/@(element.Name).jpg" style="height: 50%; width: 50%; align-self: center; padding-top: 10px">
+    <div class="item">
+        @foreach (var element in Model)
+        {
+            <div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 350px">
+                <div class="card">
+                    <img src="/img/@(element.Name).jpg" style="height: 50%; width: 50%; align-self: center; padding-top: 10px">
 
-                <div class="card-body">
-                    <h5 class="card-title text-center">
-                        Product
-                        @{ var num = Model.IndexOf(element) + 1;}
-                        @num
-                    </h5>
-                    <h5 class="card-title">@element.Name</h5>
-                    <p class="card-text">@element.Description.</p>
-                    <p class="card-text">Category: @element.ProductCategory.Department</p>
-                    <p class="card-text">Supplier: @element.Supplier.Name</p>
-                    <p class="card-text text-center"><strong>Price: @element.DefaultPrice.ToString("C2")</strong></p>
-                    <a onclick="addToCart(@element.Id)" type="button" class="btn btn-primary" style="float: bottom">Add To Cart</a>
+                    <div class="card-body">
+                        <h5 class="card-title text-center">
+                            Product
+                            @{ var num = Model.IndexOf(element) + 1;}
+                            @num
+                        </h5>
+                        <h5 class="card-title">@element.Name</h5>
+                        <p class="card-text">@element.Description.</p>
+                        <p class="card-text">Category: @element.ProductCategory.Department</p>
+                        <p class="card-text">Supplier: @element.Supplier.Name</p>
+                        <p class="card-text text-center"><strong>Price: @element.DefaultPrice.ToString("C2")</strong></p>
+                        <a onclick="addToCart(@element.Id)" type="button" class="btn btn-primary" style="float: bottom">Add To Cart</a>
+                    </div>
                 </div>
             </div>
+        }
+    </div>
+    <div class="item">
+        checkout data...
+    </div>
+    <div class="item" id="payment-option-container">
+        <div>
+            <label for="payment-option">Choose payment option:</label>
+            <select id="payment-option" name="payment-option" onchange="PaymentSelectChange()">
+              <option value="cash">Cash</option>
+              <option value="creditCard">Credit Card</option>
+            </select>
         </div>
-    }
-    checkout data...
-
+        <div class="payment-form-container">
+            <h1>Confirm your payment</h1>
+            <div class="first-row">
+                <div class="owner">
+                    <h3>Owner</h3>
+                    <div class="input-field">
+                        <input type="text" />
+                    </div>
+                </div>
+                <div class="cvv">
+                    <h3>CVV</h3>
+                    <div class="input-field">
+                        <input type="password" />
+                    </div>
+                </div>
+            </div>
+            <div class="sacond-row">
+                <div class="card-number">
+                    <h3>Card number</h3>
+                    <div class="input-field">
+                        <input type="text" />
+                    </div>
+                </div>
+            </div>
+            <div class="third-row">
+                <h3>Card number</h3>
+                <div class="selection">
+                    <div class="date">
+                        <select name="months" id="months">
+                            <option value="Jan">Jan</option>
+                            <option value="Feb">Feb</option>
+                            <option value="Mar">Mar</option>
+                            <option value="Apr">Apr</option>
+                            <option value="May">May</option>
+                            <option value="Jun">Jun</option>
+                            <option value="Jul">Jul</option>
+                            <option value="Aug">Aug</option>
+                            <option value="Sep">Sep</option>
+                            <option value="Oct">Oct</option>
+                            <option value="Nov">Nov</option>
+                            <option value="Dec">Dec</option>
+                        </select>
+                        <select name="years" id="years">
+                            <option value="2020">2021</option>
+                            <option value="2020">2022</option>
+                            <option value="2020">2023</option>
+                            <option value="2020">2024</option>
+                            <option value="2020">2025</option>
+                        </select>
+                    </div>
+                    <div class="cards">
+                        <img src="/img/icons.png" alt="" />
+                    </div>
+                </div>
+            </div>
+            <a href="#">Confirm</a>
+        </div>
+    </div>
 
 </div>
