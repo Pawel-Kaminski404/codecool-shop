@@ -18,28 +18,10 @@ namespace Codecool.CodecoolShop.Services
 
         public void AddToCart(int id, int userId)
         {
-            Cart cart = null;
-            IEnumerable<Product> listOfExistingProducts = _productDao.GetAll();
-            IEnumerable<User> listOfExistingUsers = _userDao.GetAll();
-            Product product = null;
-            
-            foreach (User existingUser in listOfExistingUsers)
-            {
-                if (existingUser.Id == userId)
-                {
-                    cart = existingUser.GetCart();
-                }
-            }
-            
-            foreach (Product existingProduct in listOfExistingProducts)
-            {
-                if (existingProduct.Id == id)
-                {
-                    product = existingProduct;
-                }
-            }
-
-            if (cart != null) cart.GetListOfProducts().Add(product);
+            Product product = _productDao.Get(id);
+            User user = _userDao.Get(userId);
+            Cart cart = user.GetCart();
+            cart.GetListOfProducts().Add(product);
         }
     }
 
