@@ -12,30 +12,12 @@ namespace Codecool.CodecoolShop.Controllers
     public class CartControllerTest : Controller
     {
         private readonly ILogger<ProductController> _logger;
-        private Cart cart;
+        private CartService _cartService = new CartService(ProductDaoMemory.GetInstance(), UserDaoMemory.GetInstance());
         
         [Route("/addProduct")]
         public IActionResult AddToCart([FromQuery] int id, [FromQuery] int userId)
         {
-            IEnumerable<Product> listOfExistingProducts = ProductDaoMemory.GetInstance().GetAll();
-            IEnumerable<User> listOfExistingUsers = UserDaoMemory.GetInstance().GetAll();
-            Product product = null;
-            foreach (User existingUser in listOfExistingUsers)
-            {
-                if (existingUser.Id == userId)
-                {
-                    cart = existingUser.GetCart();
-                }
-            }
-            
-            foreach (Product existingProduct in listOfExistingProducts)
-            {
-                if (existingProduct.Id == id)
-                {
-                    product = existingProduct;
-                }
-            }
-            cart.GetListOfProducts().Add(product);
+            _cartService.AddToCart(id,userId);
             return Ok();
         }
 
