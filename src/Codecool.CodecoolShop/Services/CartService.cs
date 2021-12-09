@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Codecool.CodecoolShop.Daos;
 using Codecool.CodecoolShop.Daos.Implementations;
 using Codecool.CodecoolShop.Models;
@@ -26,22 +28,29 @@ namespace Codecool.CodecoolShop.Services
 
         public List<Product> GetCartProducts(int userId)
         {
-            User user = _userDao.Get(userId);
+            var user = _userDao.Get(userId);
             var cartItems = user.GetCart().GetListOfProducts();
             return cartItems;
         }
 
         public decimal GetTotalPriceOfCartItems(int userId)
         {
-            User user = _userDao.Get(userId);
+            var user = _userDao.Get(userId);
             var cartItems = user.GetCart().GetListOfProducts();
-            decimal totalPrice = 0;
-            foreach (var element in cartItems)
-            {
-                totalPrice += element.DefaultPrice;
-            }
 
-            return totalPrice;
+            return cartItems.Sum(element => element.DefaultPrice);
+        }
+
+        public void DeleteFromCart(int id, int userId)
+        {
+            var user = _userDao.Get(userId);
+            var cartItems = user.GetCart().GetListOfProducts();
+            foreach (var element in cartItems.Where(element => id == element.Id))
+            {
+                cartItems.Remove(element);
+                Console.WriteLine(1);
+                break;
+            }
         }
     }
 
