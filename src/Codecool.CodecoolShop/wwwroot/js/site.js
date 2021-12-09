@@ -38,7 +38,7 @@ async function DisplayContent(data)
                     <p class="card-text">Category: ${data[item].ProductCategory.Department}</p>
                     <p class="card-text">Supplier: ${data[item].Supplier.Name}</p>
                     <p class="card-text text-center"><strong>Price: ${data[item].DefaultPrice}</strong></p>
-                    <a href="" type="button" class="btn btn-primary" style="float: bottom">Add To Cart</a>
+                    <span id="${data[item].Id}"><a onclick="addToCart(${data[item].Id})"  onload="addToCart(${data[item].Id})" type="button" class="btn btn-primary" style="float: bottom">Add To Cart</a></span>
                 </div>
             </div>
         </div>`;
