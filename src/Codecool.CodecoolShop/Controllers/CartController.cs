@@ -10,48 +10,31 @@ using Microsoft.Extensions.Logging;
 
 namespace Codecool.CodecoolShop.Controllers
 {
-    public class CartControllerTest : Controller
+    public class CartController : Controller
     {
         private readonly ILogger<ProductController> _logger;
-        private Cart cart;
+        private CartService _cartService = new CartService(ProductDaoMemory.GetInstance(), UserDaoMemory.GetInstance());
         
         [Route("/addProduct")]
         public IActionResult AddToCart([FromQuery] int id, [FromQuery] int userId)
         {
-            IEnumerable<Product> listOfExistingProducts = ProductDaoMemory.GetInstance().GetAll();
-            IEnumerable<User> listOfExistingUsers = UserDaoMemory.GetInstance().GetAll();
-            Product product = null;
-            foreach (User existingUser in listOfExistingUsers)
-            {
-                if (existingUser.Id == userId)
-                {
-                    cart = existingUser.GetCart();
-                }
-            }
-            
-            foreach (Product existingProduct in listOfExistingProducts)
-            {
-                if (existingProduct.Id == id)
-                {
-                    product = existingProduct;
-                }
-            }
-            cart.GetListOfProducts().Add(product);
-            ReadCart(cart.GetListOfProducts());
-            var json1 = JsonSerializer.Serialize(cart.GetListOfProducts().Count);
-            var json2 = id;
-            var jsonString = "[" + json1 + "," + json2 + "]";
+            _cartService.AddToCart(id,userId);
+            var cartItems = _cartService.GetCartProducts(userId);
+            string json1 = JsonSerializer.Serialize(cartItems.Count);
+            string json2 = JsonSerializer.Serialize(id);
+            string jsonString = "[" + json1 + "," + json2 + "]";
             return Ok(jsonString);
         }
-
-        private void ReadCart(List<Product> carts)
+        
+        public IActionResult Cart()
         {
-            foreach (var product in carts)
-            {
-                Console.WriteLine(product.Name);
-            }
-
+            var cartItems = _cartService.GetCartProducts(1);
+            var totalPriceOfItems = _cartService.GetTotalPriceOfCartItems(1);
+            ViewBag.CartItems = cartItems;
+            ViewBag.totalPriceOfItems = totalPriceOfItems;
+            return View();
         }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
