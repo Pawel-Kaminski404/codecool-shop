@@ -64,7 +64,8 @@ namespace Codecool.CodecoolShop
             IProductDao productDataStore = ProductDaoMemory.GetInstance();
             IProductCategoryDao productCategoryDataStore = ProductCategoryDaoMemory.GetInstance();
             ISupplierDao supplierDataStore = SupplierDaoMemory.GetInstance();
-
+            IUserDao userDataStore = UserDaoMemory.GetInstance();
+            
             Supplier amazon = new Supplier{Name = "Amazon", Description = "Digital content and services"};
             supplierDataStore.Add(amazon);
             Supplier lenovo = new Supplier{Name = "Lenovo", Description = "Computers"};
@@ -73,6 +74,9 @@ namespace Codecool.CodecoolShop
             productCategoryDataStore.Add(tablet);
             ProductCategory laptop = new ProductCategory { Name = "Laptop", Department = "Hardware", Description = "A laptop computer, is a thin, flat computer." };
             productCategoryDataStore.Add(laptop);
+            // przed demo zmien hasło XD
+            User user = new User("Paweł", "pawel.kaminski@interia.pl", "LubieJJa1@");
+            userDataStore.Add(user);
             productDataStore.Add(new Product { Name = "Amazon Fire", DefaultPrice = 49.9m, Currency = "USD", Description = "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", ProductCategory = tablet, Supplier = amazon });
             productDataStore.Add(new Product { Name = "Lenovo IdeaPad Miix 700", DefaultPrice = 479.0m, Currency = "USD", Description = "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", ProductCategory = laptop, Supplier = lenovo });
             productDataStore.Add(new Product { Name = "Amazon Fire HD 8", DefaultPrice = 89.0m, Currency = "USD", Description = "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", ProductCategory = tablet, Supplier = amazon });
