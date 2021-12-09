@@ -116,6 +116,10 @@ body {
     width: 200px;
 }
 
+.cvv{
+    width: 50px;
+}
+
 #payment-option-container h1 {
     text-align: center;
 }
