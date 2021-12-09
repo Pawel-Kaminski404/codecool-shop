@@ -6,6 +6,7 @@ namespace Codecool.CodecoolShop.Models
         private string _email;
         private string _password;
         private Cart _cart;
+        private Checkout _checkout;
 
         public User(string name, string email, string password)
         {
@@ -13,11 +14,17 @@ namespace Codecool.CodecoolShop.Models
             _email = email;
             _password = password;
             _cart = new Cart();
+            _checkout = null;
         }
 
         public Cart GetCart()
         {
             return _cart;
+        }
+
+        public void SetCheckout(Checkout checkout)
+        {
+            _checkout = checkout;
         }
     }
 }
