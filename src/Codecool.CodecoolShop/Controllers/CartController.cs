@@ -34,9 +34,7 @@ namespace Codecool.CodecoolShop.Controllers
         [Route("/deleteProduct")]
         public IActionResult DeleteFromCart([FromQuery] int id, [FromQuery] int userId)
         {
-            Console.WriteLine("\n\n\n\ndupa1\n\n\n\n");
             _cartService.DeleteFromCart(id, userId);
-            Console.WriteLine("\n\n\n\ndupa3\n\n\n\n");
             var cartItems = _cartService.GetCartProducts(userId);
             var totalPriceOfItems = _cartService.GetTotalPriceOfCartItems(1);
             string json1 = JsonSerializer.Serialize(cartItems);
