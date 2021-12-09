@@ -14,24 +14,34 @@ namespace Codecool.CodecoolShop.Controllers
     {
         private readonly ILogger<CartController> _logger;
         private CartService _cartService = new CartService(ProductDaoMemory.GetInstance(), UserDaoMemory.GetInstance());
-        
+
         public CartController(ILogger<CartController> logger)
         {
             _logger = logger;
         }
         
-        [Route("/addProduct")]
+        [HttpGet("/addProduct")]
         public IActionResult AddToCart([FromQuery] int id, [FromQuery] int userId)
         {
             _cartService.AddToCart(id,userId);
             var cartItems = _cartService.GetCartProducts(userId);
             string json1 = JsonSerializer.Serialize(cartItems.Count);
             string json2 = JsonSerializer.Serialize(id);
+            ViewBag.ItemsInCartCounter = cartItems.Count;
             string jsonString = "[" + json1 + "," + json2 + "]";
             return Ok(jsonString);
         }
 
-        [Route("/deleteProduct")]
+        [HttpGet("/GetCartAmount")]
+        public IActionResult GetCartAmount(int userId)
+        {
+            var itemsCount = _cartService.GetCartProducts(1).Count;
+            string jsonString = JsonSerializer.Serialize(itemsCount);
+            return Ok(jsonString);
+
+        }
+
+        [HttpGet("/deleteProduct")]
         public IActionResult DeleteFromCart([FromQuery] int id, [FromQuery] int userId)
         {
             _cartService.DeleteFromCart(id, userId);

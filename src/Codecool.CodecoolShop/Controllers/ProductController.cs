@@ -17,6 +17,7 @@ namespace Codecool.CodecoolShop.Controllers
     {
         private readonly ILogger<ProductController> _logger;
         public ProductService ProductService { get; set; }
+        
 
         public ProductController(ILogger<ProductController> logger)
         {
@@ -24,6 +25,8 @@ namespace Codecool.CodecoolShop.Controllers
             ProductService = new ProductService(
                 ProductDaoMemory.GetInstance(),
                 ProductCategoryDaoMemory.GetInstance());
+
+
         }
 
         public IActionResult Index()
