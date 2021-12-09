@@ -25,7 +25,6 @@ namespace Codecool.CodecoolShop.Services
             Cart cart = user.GetCart();
             cart.GetListOfProducts().Add(product);
         }
-
         public List<Product> GetCartProducts(int userId)
         {
             var user = _userDao.Get(userId);
@@ -52,6 +51,14 @@ namespace Codecool.CodecoolShop.Services
                 break;
             }
         }
+        public Cart GetCartByUserId(int userId)
+        {
+            User user = _userDao.Get(userId);
+            if (user == null)
+            {
+                return null;
+            }
+            return user.GetCart();
+        }
     }
-
 }

@@ -1,0 +1,76 @@
+@{
+    ViewData["Title"] = "Payment";
+}
+
+
+   @* <div class="item">
+        checkout data...
+    </div>*@
+    <div class="item" id="payment-option-container">
+        @*<div>
+            <label for="payment-option">Choose payment option:</label>
+            <select id="payment-option" name="payment-option" onchange="PaymentSelectChange()">
+              <option value="cash">Cash</option>
+              <option value="creditCard">Credit Card</option>
+            </select>
+        </div>*@
+        <div class="payment-form-container">
+            <h1>Confirm your payment</h1>
+            <div class="first-row">
+                <div class="owner">
+                    <h3>Owner</h3>
+                    <div class="input-field">
+                        <input type="text" />
+                    </div>
+                </div>
+                <div class="cvv">
+                    <h3>CVV</h3>
+                    <div class="input-field">
+                        <input type="text" maxlength="3" />
+                    </div>
+                </div>
+            </div>
+            <div class="sacond-row">
+                <div class="card-number">
+                    <h3>Card number</h3>
+                    <div class="input-field">
+                        <input type="text" id="ccn" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" placeholder="xxxx xxxx xxxx xxxx"/>
+                    </div>
+                </div>
+            </div>
+            <div class="third-row">
+                <h3>Expiration date</h3>
+                <div class="selection">
+                    <div class="date">
+                        <select name="months" id="months">
+                            <option value="Jan">Jan</option>
+                            <option value="Feb">Feb</option>
+                            <option value="Mar">Mar</option>
+                            <option value="Apr">Apr</option>
+                            <option value="May">May</option>
+                            <option value="Jun">Jun</option>
+                            <option value="Jul">Jul</option>
+                            <option value="Aug">Aug</option>
+                            <option value="Sep">Sep</option>
+                            <option value="Oct">Oct</option>
+                            <option value="Nov">Nov</option>
+                            <option value="Dec">Dec</option>
+                        </select>
+                        <select name="years" id="years">
+                            <option value="2020">2021</option>
+                            <option value="2020">2022</option>
+                            <option value="2020">2023</option>
+                            <option value="2020">2024</option>
+                            <option value="2020">2025</option>
+                        </select>
+                    </div>
+                    <div class="cards">
+                        <img src="/img/icons.png" alt="" />
+                    </div>
+                </div>
+            </div>
+            <a asp-controller="Payment" asp-action="Confirmation">Confirm</a>
+        </div>
+    </div>
+
+</div>

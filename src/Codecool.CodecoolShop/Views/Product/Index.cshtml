@@ -4,7 +4,29 @@
 
 @model List<Codecool.CodecoolShop.Models.Product>
 
-<div class="container">
+    <form>
+        <label for="categories">Choose a category:</label>
+            <select id="categories">
+                <option value="All">All</option>;
+                @foreach (var item in ProductCategoryDaoMemory.GetInstance().GetAll())
+                {
+                    <option value="@item.Name">@item.Name</option>;
+                }
+            </select>
+        <button type="button" onclick="RefreshProducts('category')">Refresh</button>
+    </form>
+    <form>
+        <label for="supliers">Choose a suplier:</label>
+            <select id="supliers">
+                <option value="All">All</option>;
+                @foreach (var item in SupplierDaoMemory.GetInstance().GetAll())
+                {
+                    <option value="@item.Name">@item.Name</option>;
+                }
+            </select>
+        <button type="button" onclick="RefreshProducts('supplier')">Refresh</button>
+    </form>
+<div class="container" id="productContainer">
     @foreach (var element in Model)
     {
         <div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 350px">
