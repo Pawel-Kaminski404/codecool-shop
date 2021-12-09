@@ -18,14 +18,9 @@ namespace Codecool.CodecoolShop.Controllers
         {
             _logger = logger;
         }
-        public IActionResult Index([FromQuery] int userId)
+        public IActionResult Index()
         {
-            Cart cart = _cartService.GetCartByUserId(userId);
-            if (cart == null)
-            {
-                return RedirectToAction("ErrorPage");
-            }
-            return View(cart.GetListOfProducts());
+            return View();
         }
 
         public IActionResult ErrorPage()
