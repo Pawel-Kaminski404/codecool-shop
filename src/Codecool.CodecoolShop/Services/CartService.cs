@@ -23,6 +23,26 @@ namespace Codecool.CodecoolShop.Services
             Cart cart = user.GetCart();
             cart.GetListOfProducts().Add(product);
         }
+
+        public List<Product> GetCartProducts(int userId)
+        {
+            User user = _userDao.Get(userId);
+            var cartItems = user.GetCart().GetListOfProducts();
+            return cartItems;
+        }
+
+        public decimal GetTotalPriceOfCartItems(int userId)
+        {
+            User user = _userDao.Get(userId);
+            var cartItems = user.GetCart().GetListOfProducts();
+            decimal totalPrice = 0;
+            foreach (var element in cartItems)
+            {
+                totalPrice += element.DefaultPrice;
+            }
+
+            return totalPrice;
+        }
     }
 
 }

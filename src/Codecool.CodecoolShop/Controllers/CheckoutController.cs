@@ -20,7 +20,8 @@ namespace Codecool.CodecoolShop.Controllers
             _checkoutDao.Add(checkout);
             _userDao.Get(userId).SetCheckout(checkout);
             
-            return RedirectToAction("Index","Payment");
+            // return RedirectToAction("Index","Payment");
+            return Ok();
         }
 
         public IActionResult Index()
