@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Codecool.CodecoolShop.Controllers
 {
-    public class CartControllerTest : Controller
+    public class CartController : Controller
     {
         private readonly ILogger<ProductController> _logger;
         private CartService _cartService = new CartService(ProductDaoMemory.GetInstance(), UserDaoMemory.GetInstance());
