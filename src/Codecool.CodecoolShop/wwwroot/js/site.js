@@ -36,7 +36,7 @@ window.addEventListener("load", () => {
     async function DisplayContent(data) {
         document.getElementById("productContainer").innerHTML = "";
         for (item in data) {
-            document.getElementById("productContainer").innerHTML += `<div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 350px">
+            document.getElementById("productContainer").innerHTML += `<div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 350px; margin-bottom: 200px;">
             <div class="card">
                 <img src="img/${data[item].Name}.jpg" style="height: 50%; width: 50%; align-self: center; padding-top: 10px">
 
