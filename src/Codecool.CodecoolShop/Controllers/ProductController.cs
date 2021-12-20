@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Codecool.CodecoolShop.Models;
 using Codecool.CodecoolShop.Services;
 using System.Text.Json;
+using System.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace Codecool.CodecoolShop.Controllers
 {
@@ -17,20 +19,25 @@ namespace Codecool.CodecoolShop.Controllers
     {
         private readonly ILogger<ProductController> _logger;
         public ProductService ProductService { get; set; }
+        public IConfiguration Configuration { get; }
+
+        public IDbConnectionService ConnectionService { get; set; }
         
 
-        public ProductController(ILogger<ProductController> logger)
+        public ProductController(ILogger<ProductController> logger, IConfiguration config, IDbConnectionService dbConnectionService)
         {
+            Configuration = config;
             _logger = logger;
             ProductService = new ProductService(
                 ProductDaoMemory.GetInstance(),
                 ProductCategoryDaoMemory.GetInstance());
 
-
+            ConnectionService = dbConnectionService;
         }
 
         public IActionResult Index()
         {
+            ConnectionService.Add("dupa, ", "jasiu");
             var products = ProductService.GetProductsForCategory("All");
             return View(products.ToList());
         }
