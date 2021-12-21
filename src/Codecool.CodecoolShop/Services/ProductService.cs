@@ -11,11 +11,13 @@ namespace Codecool.CodecoolShop.Services
     {
         private readonly IProductDao productDao;
         private readonly IProductCategoryDao productCategoryDao;
+        private readonly ISupplierDao supplierDao;
 
-        public ProductService(IProductDao productDao, IProductCategoryDao productCategoryDao)
+        public ProductService(IProductDao productDao, IProductCategoryDao productCategoryDao, ISupplierDao supplierDao)
         {
             this.productDao = productDao;
             this.productCategoryDao = productCategoryDao;
+            this.supplierDao = supplierDao;
         }
 
         public ProductCategory GetProductCategory(int categoryId)
@@ -59,22 +61,13 @@ namespace Codecool.CodecoolShop.Services
 
         public IEnumerable<Product> GetProductsForSupplier(int supplierId)
         {
-            Supplier supplier = SupplierDaoMemory.GetInstance().Get(supplierId);
+            Supplier supplier = supplierDao.Get(supplierId);
             return this.productDao.GetBy(supplier);
         }
 
         private IEnumerable<Product> GetAllProducts()
         {
-            IEnumerable<Product> output = GetProductsForCategory(1);
-            var values = Enum.GetValues(typeof(Categories));
-            foreach (var item in values)
-            {
-                if ((int)item != 0 && (int)item != 1)
-                {
-                    output = output.Concat(GetProductsForCategory((int)item));
-                }
-            }
-            return output;
+            return productDao.GetAll();
         }
         private enum Categories
         {

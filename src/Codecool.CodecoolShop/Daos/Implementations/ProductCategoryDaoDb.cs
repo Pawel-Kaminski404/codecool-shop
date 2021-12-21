@@ -50,7 +50,33 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
         public IEnumerable<ProductCategory> GetAll()
         {
-            throw new System.NotImplementedException();
+            List<ProductCategory> products = new List<ProductCategory>();
+            using var conn = _dbConnectionService.GetConnection();
+            try
+            {
+                conn.Open();
+                var command = conn.CreateCommand();
+                command.Connection = conn;
+                command.CommandText = "SELECT * FROM categories;";
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        products.Add(new ProductCategory
+                        {
+                            Id = (int)reader["Id"],
+                            Name = (String)reader["Name"],
+                            Department = (String)reader["Department"],
+                            Description = (String)reader["Description"]
+                        });
+                    }
+                }
+                return products;
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
         public void Remove(int id)

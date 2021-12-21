@@ -68,18 +68,8 @@ namespace Codecool.CodecoolShop
 
         private void SetupInMemoryDatabases()
         {
-            IProductCategoryDao productCategoryDataStore = ProductCategoryDaoMemory.GetInstance();
-            ISupplierDao supplierDataStore = SupplierDaoMemory.GetInstance();
             IUserDao userDataStore = UserDaoMemory.GetInstance();
             
-            Supplier amazon = new Supplier{Name = "Amazon", Description = "Digital content and services"};
-            supplierDataStore.Add(amazon);
-            Supplier lenovo = new Supplier{Name = "Lenovo", Description = "Computers"};
-            supplierDataStore.Add(lenovo);
-            ProductCategory tablet = new ProductCategory {Name = "Tablet", Department = "Hardware", Description = "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display." };
-            productCategoryDataStore.Add(tablet);
-            ProductCategory laptop = new ProductCategory { Name = "Laptop", Department = "Hardware", Description = "A laptop computer, is a thin, flat computer." };
-            productCategoryDataStore.Add(laptop);
             // przed demo zmien hasło XD
             User user = new User("Paweł", "pawel.kaminski@interia.pl", "LubieJJa1@");
             userDataStore.Add(user);

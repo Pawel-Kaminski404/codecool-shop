@@ -2,13 +2,13 @@
     ViewData["Title"] = "Home Page";
 }
 
-@model List<Codecool.CodecoolShop.Models.Product>
+@model (List<Codecool.CodecoolShop.Models.Product>, List<Codecool.CodecoolShop.Models.ProductCategory>, List<Codecool.CodecoolShop.Models.Supplier>)
 
     <form>
         <label for="categories">Choose a category:</label>
             <select id="categories">
                 <option value="All">All</option>;
-                @foreach (var item in ProductCategoryDaoMemory.GetInstance().GetAll())
+                @foreach (var item in Model.Item2)
                 {
                     <option value="@item.Name">@item.Name</option>;
                 }
@@ -19,7 +19,7 @@
         <label for="supliers">Choose a suplier:</label>
             <select id="supliers">
                 <option value="All">All</option>;
-                @foreach (var item in SupplierDaoMemory.GetInstance().GetAll())
+                @foreach (var item in Model.Item3)
                 {
                     <option value="@item.Name">@item.Name</option>;
                 }
@@ -27,7 +27,7 @@
         <button type="button" onclick="RefreshProducts('supplier')">Refresh</button>
     </form>
 <div class="container" id="productContainer">
-    @foreach (var element in Model)
+    @foreach (var element in Model.Item1)
     {
         <div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 350px; margin-bottom: 200px;";>
             <div class="card">
@@ -36,7 +36,7 @@
                 <div class="card-body">
                     <h5 class="card-title text-center">
                         Product
-                        @{ var num = Model.IndexOf(element) + 1;}
+                        @{ var num = Model.Item1.IndexOf(element) + 1;}
                         @num
                     </h5>
                     <h5 class="card-title">@element.Name</h5>

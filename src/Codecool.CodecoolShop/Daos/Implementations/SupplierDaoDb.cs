@@ -49,7 +49,32 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
         public IEnumerable<Supplier> GetAll()
         {
-            throw new System.NotImplementedException();
+            List<Supplier> products = new List<Supplier>();
+            using var conn = _dbConnectionService.GetConnection();
+            try
+            {
+                conn.Open();
+                var command = conn.CreateCommand();
+                command.Connection = conn;
+                command.CommandText = "SELECT * FROM suppliers;";
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        products.Add(new Supplier
+                        {
+                            Id = (int)reader["Id"],
+                            Name = (String)reader["Name"],
+                            Description = (String)reader["Description"]
+                        });
+                    }
+                }
+                return products;
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
         public void Remove(int id)

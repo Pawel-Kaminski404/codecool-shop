@@ -21,22 +21,25 @@ namespace Codecool.CodecoolShop.Controllers
         public IProductService ProductService { get; set; }
         public IConfiguration Configuration { get; }
 
+        private readonly ISupplierDao _supplierDao;
+        private readonly IProductCategoryDao _productCategoryDao;
 
-
-        public ProductController(ILogger<ProductController> logger, IConfiguration config, IProductService productService)
+        public ProductController(ILogger<ProductController> logger, IConfiguration config,
+            IProductService productService, ISupplierDao supplierDao, IProductCategoryDao productCategoryDao)
         {
             Configuration = config;
             _logger = logger;
-            //ProductService = new ProductService(
-            //    ProductDaoMemory.GetInstance(),
-            //    ProductCategoryDaoMemory.GetInstance());
             ProductService = productService;
+            _supplierDao = supplierDao;
+            _productCategoryDao = productCategoryDao;
         }
 
         public IActionResult Index()
         {
             var products = ProductService.GetProductsForCategory("All");
-            return View(products.ToList());
+            var categories = _productCategoryDao.GetAll();
+            var suppliers = _supplierDao.GetAll();
+            return View((products.ToList(), categories.ToList(), suppliers.ToList()));
         }
 
         public IActionResult Privacy()
