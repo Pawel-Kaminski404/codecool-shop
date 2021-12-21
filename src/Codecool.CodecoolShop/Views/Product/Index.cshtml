@@ -7,10 +7,10 @@
     <form>
         <label for="categories">Choose a category:</label>
             <select id="categories">
-                <option value="All">All</option>;
+                <option value="0">All</option>;
                 @foreach (var item in Model.Item2)
                 {
-                    <option value="@item.Name">@item.Name</option>;
+                    <option value="@item.Id">@item.Name</option>;
                 }
             </select>
         <button type="button" onclick="RefreshProducts('category')">Refresh</button>
@@ -18,10 +18,10 @@
     <form>
         <label for="supliers">Choose a suplier:</label>
             <select id="supliers">
-                <option value="All">All</option>;
+                <option value="0">All</option>;
                 @foreach (var item in Model.Item3)
                 {
-                    <option value="@item.Name">@item.Name</option>;
+                    <option value="@item.Id">@item.Name</option>;
                 }
             </select>
         <button type="button" onclick="RefreshProducts('supplier')">Refresh</button>

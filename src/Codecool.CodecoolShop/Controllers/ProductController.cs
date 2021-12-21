@@ -36,7 +36,7 @@ namespace Codecool.CodecoolShop.Controllers
 
         public IActionResult Index()
         {
-            var products = ProductService.GetProductsForCategory("All");
+            var products = ProductService.GetProductsForCategory(0);
             var categories = _productCategoryDao.GetAll();
             var suppliers = _supplierDao.GetAll();
             return View((products.ToList(), categories.ToList(), suppliers.ToList()));
@@ -48,9 +48,10 @@ namespace Codecool.CodecoolShop.Controllers
         }
 
         [Route("/getProducts")]
-        public IActionResult GetProducts([FromQuery] string filterBy, [FromQuery] string filter)
+        public IActionResult GetProducts([FromQuery] string filterBy, [FromQuery] int filter)
         {
             IEnumerable<Product> products;
+            _logger.LogDebug(filter.ToString());
             if (filterBy == "category")
             {
                 products = ProductService.GetProductsForCategory(filter);

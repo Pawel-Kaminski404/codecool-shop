@@ -7,8 +7,6 @@ namespace Codecool.CodecoolShop.Services
     {
         ProductCategory GetProductCategory(int categoryId);
         IEnumerable<Product> GetProductsForCategory(int categoryId);
-        IEnumerable<Product> GetProductsForCategory(string categoryName);
         IEnumerable<Product> GetProductsForSupplier(int supplierId);
-        IEnumerable<Product> GetProductsForSupplier(string supplierName);
     }
 }

@@ -24,63 +24,35 @@ namespace Codecool.CodecoolShop.Services
         {
             return this.productCategoryDao.Get(categoryId);
         }
-
-        public IEnumerable<Product> GetProductsForCategory(string categoryName)
+        public IEnumerable<Product> GetProductsForCategory(int categoryId)
         {
-            Categories category = (Categories)Enum.Parse(typeof(Categories), categoryName);
-            int categoriyNumber = (int)category;
-            if (categoriyNumber == 0)
-            {
-                return productDao.GetAll();
-            }
-            return GetProductsForCategory(categoriyNumber);
-        }
-
-        public IEnumerable<Product> GetProductsForSupplier(string supplierName)
-        {
-            Suppliers supplier = (Suppliers)Enum.Parse(typeof(Suppliers), supplierName);
-            int categoriyNumber = (int)supplier;
-            if (categoriyNumber == 0)
+            if (categoryId == 0)
             {
                 return GetAllProducts();
             }
-            return GetProductsForSupplier(categoriyNumber);
-        }
-        public IEnumerable<Product> GetProductsForCategory(int categoryId)
-        {
-            ProductCategory category = this.productCategoryDao.Get(categoryId);
-            if (category.Name == "All")
-            {
-                return productDao.GetAll();
-            }
             else
             {
-                return this.productDao.GetBy(category);
+
+                return productDao.GetBy(productCategoryDao.Get(categoryId));
             }
         }
 
         public IEnumerable<Product> GetProductsForSupplier(int supplierId)
         {
-            Supplier supplier = supplierDao.Get(supplierId);
-            return this.productDao.GetBy(supplier);
+            if (supplierId == 0)
+            {
+                return GetAllProducts();
+            }
+            else
+            {
+
+                return productDao.GetBy(supplierDao.Get(supplierId));
+            }
         }
 
         private IEnumerable<Product> GetAllProducts()
         {
             return productDao.GetAll();
-        }
-        private enum Categories
-        {
-            All,
-            Tablet,
-            Laptop
-        }
-
-        private enum Suppliers
-        {
-            All,
-            Amazon,
-            Lenovo
         }
     }
 }
