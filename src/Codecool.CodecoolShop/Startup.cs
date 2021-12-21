@@ -32,6 +32,7 @@ namespace Codecool.CodecoolShop
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IProductDao, ProductDaoDb>();
             services.AddTransient<ISupplierDao, SupplierDaoDb>();
+            services.AddTransient<ICartService, CartService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
