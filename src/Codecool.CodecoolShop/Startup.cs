@@ -27,7 +27,8 @@ namespace Codecool.CodecoolShop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddTransient<IDbConnectionService, DbConnectionService>();
+            services.AddSingleton<IDbConnectionService, DbConnectionService>();
+            services.AddTransient<IProductCategoryDao, ProductCategoryDaoDb>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
