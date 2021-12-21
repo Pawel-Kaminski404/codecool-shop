@@ -14,5 +14,10 @@ namespace Codecool.CodecoolShop.Models
             ProductCategory = productCategory;
             ProductCategory.Products.Add(this);
         }
+
+        public override string ToString()
+        {
+            return $"{Name}";
+        }
     }
 }

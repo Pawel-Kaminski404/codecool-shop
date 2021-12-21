@@ -8,39 +8,23 @@ namespace Codecool.CodecoolShop.Services
     {
         private readonly IConfiguration configuration;
 
-        public DbProviderFactory factory { get; }
-        public string provider { get; }
-        public string _connectionString { get; }
+        private DbProviderFactory _factory;
+        private string _provider;
+        private string _connectionString;
 
         public DbConnectionService(IConfiguration config)
         {
             configuration = config;
             _connectionString = configuration.GetConnectionString("DefaultConnectionString");
-            provider = "System.Data.SqlClient";
-            factory = DbProviderFactories.GetFactory(provider);
+            _provider = "System.Data.SqlClient";
+            _factory = DbProviderFactories.GetFactory(_provider);
         }
 
         public IDbConnection GetConnection()
         {
-            var conn = factory.CreateConnection();
+            var conn = _factory.CreateConnection();
             conn.ConnectionString = _connectionString;
             return conn;
         }
-
-
-
-        //public void Add(string name, string lastName) // pod testowanie połączenia, potem wyjebać
-        //{
-        //    using (var conn = factory.CreateConnection())
-        //    {
-        //        conn.ConnectionString = _connectionString;
-        //        conn.Open();
-        //        var command = factory.CreateCommand();
-        //        command.Connection = conn;
-        //        command.CommandText = $"INSERT INTO users (name, password) " +
-        //                              $"VALUES('{name}', '{lastName}');";
-        //        command.ExecuteNonQuery();
-        //    }
-        //}
     }
 }

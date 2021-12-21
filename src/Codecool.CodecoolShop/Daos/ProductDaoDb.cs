@@ -1,5 +1,6 @@
 ﻿using Codecool.CodecoolShop.Models;
 using Codecool.CodecoolShop.Services;
+using System;
 using System.Collections.Generic;
 
 namespace Codecool.CodecoolShop.Daos
@@ -8,10 +9,13 @@ namespace Codecool.CodecoolShop.Daos
     {
         private readonly IDbConnectionService _dbConnectionService;
         private readonly IProductCategoryDao _productCategoryDao;
-        public ProductDaoDb(IDbConnectionService dbConnectionService, IProductCategoryDao productCategoryDao)  
+        private readonly ISupplierDao _supplierDao;
+        public ProductDaoDb(IDbConnectionService dbConnectionService, IProductCategoryDao productCategoryDao
+                            ,ISupplierDao supplierDao)
         {
             _dbConnectionService = dbConnectionService;
             _productCategoryDao = productCategoryDao;
+            _supplierDao = supplierDao;
         }
 
         public void Add(Product item)
@@ -26,7 +30,36 @@ namespace Codecool.CodecoolShop.Daos
 
         public IEnumerable<Product> GetAll()
         {
-            throw new System.NotImplementedException();
+            List<Product> products = new List<Product>();
+            using var conn = _dbConnectionService.GetConnection();
+            try
+            {
+                conn.Open();
+                var command = conn.CreateCommand();
+                command.Connection = conn;
+                command.CommandText = "SELECT * FROM products;";
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        products.Add(new Product
+                        {
+                            Id = (int)reader["Id"],
+                            Name = (String)reader["Name"],
+                            DefaultPrice = (decimal)reader["DefaultPrice"],
+                            Currency = (String)reader["Currency"],
+                            Description = (String)reader["Description"],
+                            ProductCategory = _productCategoryDao.Get((int)reader["ProductCategoryId"]),
+                            Supplier = _supplierDao.Get((int)reader["SupplierID"])
+                        });
+                    }
+                }
+                return products;
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
         public IEnumerable<Product> GetBy(Supplier supplier)
@@ -36,7 +69,38 @@ namespace Codecool.CodecoolShop.Daos
 
         public IEnumerable<Product> GetBy(ProductCategory productCategory)
         {
-            throw new System.NotImplementedException();
+            List<Product> products = new List<Product>();
+            using var conn = _dbConnectionService.GetConnection();
+            try
+            {
+                conn.Open();
+                var command = conn.CreateCommand();
+                command.Connection = conn;
+                command.CommandText = $@"SELECT p.Id, p.Name, p.DefaultPrice, p.Currency, p.Description, c.Name AS Category, s.Name AS Supplier FROM products AS p
+                                        JOIN categories AS c ON p.ProductCategoryId=c.Id
+                                        JOIN suppliers AS s ON p.SupplierID=s.Id
+                                        WHERE c.Name='{productCategory.Name}';";
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        products.Add(new Product {
+                            Id = (int)reader["Id"],
+                            Name = (String)reader["Name"],
+                            DefaultPrice = (decimal)reader["DefaultPrice"],
+                            Currency = (String)reader["Currency"],
+                            Description = (String)reader["Description"],
+
+
+                        });
+                    }
+                }
+                return products;
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
         public void Remove(int id)
