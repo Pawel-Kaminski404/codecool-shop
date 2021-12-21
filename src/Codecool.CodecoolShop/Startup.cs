@@ -68,7 +68,6 @@ namespace Codecool.CodecoolShop
 
         private void SetupInMemoryDatabases()
         {
-            IProductDao productDataStore = ProductDaoMemory.GetInstance();
             IProductCategoryDao productCategoryDataStore = ProductCategoryDaoMemory.GetInstance();
             ISupplierDao supplierDataStore = SupplierDaoMemory.GetInstance();
             IUserDao userDataStore = UserDaoMemory.GetInstance();
@@ -84,10 +83,6 @@ namespace Codecool.CodecoolShop
             // przed demo zmien hasło XD
             User user = new User("Paweł", "pawel.kaminski@interia.pl", "LubieJJa1@");
             userDataStore.Add(user);
-            productDataStore.Add(new Product { Name = "Amazon Fire", DefaultPrice = 49.9m, Currency = "USD", Description = "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", ProductCategory = tablet, Supplier = amazon });
-            productDataStore.Add(new Product { Name = "Lenovo IdeaPad Miix 700", DefaultPrice = 479.0m, Currency = "USD", Description = "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", ProductCategory = laptop, Supplier = lenovo });
-            productDataStore.Add(new Product { Name = "Amazon Fire HD 8", DefaultPrice = 89.0m, Currency = "USD", Description = "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", ProductCategory = tablet, Supplier = amazon });
-            productDataStore.Add(new Product { Name = "Amazon Laptop 2000", DefaultPrice = 892.0m, Currency = "USD", Description = "Bardzo fajny laptop serdzecznie polecam", ProductCategory = laptop, Supplier = amazon });
         }
     }
 }
