@@ -1,4 +1,5 @@
-﻿using System.Data.Common;
+﻿using System.Data;
+using System.Data.Common;
 using Microsoft.Extensions.Configuration;
 
 namespace Codecool.CodecoolShop.Services
@@ -7,32 +8,23 @@ namespace Codecool.CodecoolShop.Services
     {
         private readonly IConfiguration configuration;
 
-        public DbProviderFactory factory { get; }
-        public string provider { get; }
-        public string _connectionString { get; }
+        private DbProviderFactory _factory;
+        private string _provider;
+        private string _connectionString;
 
         public DbConnectionService(IConfiguration config)
         {
             configuration = config;
             _connectionString = configuration.GetConnectionString("DefaultConnectionString");
-            provider = "System.Data.SqlClient";
-            factory = DbProviderFactories.GetFactory(provider);
+            _provider = "System.Data.SqlClient";
+            _factory = DbProviderFactories.GetFactory(_provider);
         }
 
-
-
-        public void Add(string name, string lastName) // pod testowanie połączenia, potem wyjebać
+        public IDbConnection GetConnection()
         {
-            using (var conn = factory.CreateConnection())
-            {
-                conn.ConnectionString = _connectionString;
-                conn.Open();
-                var command = factory.CreateCommand();
-                command.Connection = conn;
-                command.CommandText = $"INSERT INTO users (name, password) " +
-                                      $"VALUES('{name}', '{lastName}');";
-                command.ExecuteNonQuery();
-            }
+            var conn = _factory.CreateConnection();
+            conn.ConnectionString = _connectionString;
+            return conn;
         }
     }
 }

@@ -13,11 +13,12 @@ namespace Codecool.CodecoolShop.Controllers
     public class CartController : Controller
     {
         private readonly ILogger<CartController> _logger;
-        private CartService _cartService = new CartService(ProductDaoMemory.GetInstance(), UserDaoMemory.GetInstance());
+        private readonly ICartService _cartService;
 
-        public CartController(ILogger<CartController> logger)
+        public CartController(ILogger<CartController> logger, ICartService cartService)
         {
             _logger = logger;
+            _cartService = cartService;
         }
         
         [HttpGet("/addProduct")]
