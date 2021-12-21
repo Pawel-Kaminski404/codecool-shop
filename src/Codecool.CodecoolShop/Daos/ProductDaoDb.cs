@@ -76,9 +76,8 @@ namespace Codecool.CodecoolShop.Daos
                 conn.Open();
                 var command = conn.CreateCommand();
                 command.Connection = conn;
-                command.CommandText = $@"SELECT p.Id, p.Name, p.DefaultPrice, p.Currency, p.Description, c.Name AS Category, s.Name AS Supplier FROM products AS p
+                command.CommandText = $@"SELECT * FROM products AS p
                                         JOIN categories AS c ON p.ProductCategoryId=c.Id
-                                        JOIN suppliers AS s ON p.SupplierID=s.Id
                                         WHERE c.Name='{productCategory.Name}';";
                 using (var reader = command.ExecuteReader())
                 {
@@ -90,8 +89,8 @@ namespace Codecool.CodecoolShop.Daos
                             DefaultPrice = (decimal)reader["DefaultPrice"],
                             Currency = (String)reader["Currency"],
                             Description = (String)reader["Description"],
-
-
+                            ProductCategory = _productCategoryDao.Get((int)reader["ProductCategoryId"]),
+                            Supplier = _supplierDao.Get((int)reader["SupplierID"])
                         });
                     }
                 }
