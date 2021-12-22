@@ -24,6 +24,10 @@ namespace Codecool.CodecoolShop.Controllers
         [HttpGet("/addProduct")]
         public IActionResult AddToCart([FromQuery] int id, [FromQuery] int userId)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
             _cartService.AddToCart(id,userId);
             var cartItems = _cartService.GetCartProducts(userId);
             string json1 = JsonSerializer.Serialize(cartItems.Count);
