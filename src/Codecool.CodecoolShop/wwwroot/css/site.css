@@ -82,6 +82,12 @@ body {
   text-align: center;
 }
 
+.error{
+  border-color: orangered;
+  color: darkred;
+}
+
+
 .containner {
     display: flex;
     flex-direction: column;
