@@ -14,7 +14,7 @@ namespace Codecool.CodecoolShop.Models
         public string Email { get; set; }
         
         [Required]
-        [RegularExpression(@"\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})")]
+        [RegularExpression(@"\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{3})")]
         public string PhoneNumber { get; set; }
         
         [Required]

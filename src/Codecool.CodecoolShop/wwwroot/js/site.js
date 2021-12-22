@@ -7,54 +7,53 @@
 window.addEventListener("load", () => {
      navbarCounterDisplay();
 })
-    async function navbarCounterDisplay() {
-        await fetch(`/GetCartAmount?userId=1`)
-            .then(response => response.json())
-            .then(data => ChangeNavbarContent(data));
-    }
+async function navbarCounterDisplay() {
+    await fetch(`/GetCartAmount?userId=1`)
+        .then(response => response.json())
+        .then(data => ChangeNavbarContent(data));
+}
 
-    async function ChangeNavbarContent(data) {
-        let cartItemsCounter = document.getElementById("shoppingCart");
-        cartItemsCounter.innerHTML = `<img src="/img/ShoppingCartIcon.png" style="width: 20px; height: 20px"/> ${data}`
-    }
+async function ChangeNavbarContent(data) {
+    let cartItemsCounter = document.getElementById("shoppingCart");
+    cartItemsCounter.innerHTML = `<img src="/img/ShoppingCartIcon.png" style="width: 20px; height: 20px"/> ${data}`
+}
     
     
-    async function RefreshProducts(filter) {
-        let url = "";
-        if (filter == 'category') {
-            let category = document.getElementById("categories").value;
-            url = `/getProducts?filter=${category}&filterBy=category`;
-        } else {
-            let suplier = document.getElementById("supliers").value;
-            url = `/getProducts?filter=${suplier}&filterBy=supplier`;
-        }
-        await fetch(url)
-            .then(response => response.json())
-            .then(data => DisplayContent(data));
+async function RefreshProducts(filter) {
+    let url = "";
+    if (filter == 'category') {
+        let category = document.getElementById("categories").value;
+        url = `/getProducts?filter=${category}&filterBy=category`;
+    } else {
+        let suplier = document.getElementById("supliers").value;
+        url = `/getProducts?filter=${suplier}&filterBy=supplier`;
     }
+    await fetch(url)
+        .then(response => response.json())
+        .then(data => DisplayContent(data));
+}
 
-    async function DisplayContent(data) {
-        document.getElementById("productContainer").innerHTML = "";
-        for (item in data) {
-            document.getElementById("productContainer").innerHTML += `<div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 350px; margin-bottom: 200px;">
-            <div class="card">
-                <img src="img/${data[item].Name}.jpg" style="height: 50%; width: 50%; align-self: center; padding-top: 10px">
+async function DisplayContent(data) {
+    document.getElementById("productContainer").innerHTML = "";
+    for (item in data) {
+        document.getElementById("productContainer").innerHTML += `<div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 350px; margin-bottom: 200px;">
+        <div class="card">
+            <img src="img/${data[item].Name}.jpg" style="height: 50%; width: 50%; align-self: center; padding-top: 10px">
 
-                <div class="card-body">
-                    <h5 class="card-title text-center">
-                        Product
-                        ${parseInt(item) + 1}
-                    </h5>
-                    <h5 class="card-title">${data[item].Name}</h5>
-                    <p class="card-text">${data[item].Description}.</p>
-                    <p class="card-text">Category: ${data[item].ProductCategory.Department}</p>
-                    <p class="card-text">Supplier: ${data[item].Supplier.Name}</p>
-                    <p class="card-text text-center"><strong>Price: ${data[item].DefaultPrice.toFixed(2) + ' zł'}</strong></p>
-                    <span id="${data[item].Id}"><a onclick="addToCart(${data[item].Id})"  onload="addToCart(${data[item].Id})" type="button" class="btn btn-primary" style="float: bottom">Add To Cart</a></span>
-                </div>
+            <div class="card-body">
+                <h5 class="card-title text-center">
+                    Product
+                    ${parseInt(item) + 1}
+                </h5>
+                <h5 class="card-title">${data[item].Name}</h5>
+                <p class="card-text">${data[item].Description}.</p>
+                <p class="card-text">Category: ${data[item].ProductCategory.Department}</p>
+                <p class="card-text">Supplier: ${data[item].Supplier.Name}</p>
+                <p class="card-text text-center"><strong>Price: ${data[item].DefaultPrice.toFixed(2) + ' zł'}</strong></p>
+                <span id="${data[item].Id}"><a onclick="addToCart(${data[item].Id})"  onload="addToCart(${data[item].Id})" type="button" class="btn btn-primary" style="float: bottom">Add To Cart</a></span>
             </div>
-        </div>`;
-        }
+        </div>
+    </div>`;
     }
 }
 
@@ -151,8 +150,11 @@ async function SubmitCheckout() {
         },
         body: JSON.stringify(jsonData),
     }).then(response => {
-        if (response.status) {
-
+        if (response.status == 200) {
+            window.location.href = "/Payment/Index";
+        }
+        else {
+            alert("źle!");
         }
     })
 }
@@ -196,7 +198,7 @@ function PhoneNumberValidate() {
     var phoneNumberErrorSpan = document.getElementById("phoneNumberError");
     var phoneNumberInput = document.getElementById("phoneNumber");
     var isValid = (phoneNumberInput.value).toLowerCase().match(
-        /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/
+        /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{3})/
     );
     
     if(isValid === null){
