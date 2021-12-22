@@ -12,8 +12,13 @@ namespace Codecool.CodecoolShop.Controllers
 {
     public class CartController : Controller
     {
-        private readonly ILogger<ProductController> _logger;
+        private readonly ILogger<CartController> _logger;
         private CartService _cartService = new CartService(ProductDaoMemory.GetInstance(), UserDaoMemory.GetInstance());
+        
+        public CartController(ILogger<CartController> logger)
+        {
+            _logger = logger;
+        }
         
         [Route("/addProduct")]
         public IActionResult AddToCart([FromQuery] int id, [FromQuery] int userId)
@@ -22,6 +27,18 @@ namespace Codecool.CodecoolShop.Controllers
             var cartItems = _cartService.GetCartProducts(userId);
             string json1 = JsonSerializer.Serialize(cartItems.Count);
             string json2 = JsonSerializer.Serialize(id);
+            string jsonString = "[" + json1 + "," + json2 + "]";
+            return Ok(jsonString);
+        }
+
+        [Route("/deleteProduct")]
+        public IActionResult DeleteFromCart([FromQuery] int id, [FromQuery] int userId)
+        {
+            _cartService.DeleteFromCart(id, userId);
+            var cartItems = _cartService.GetCartProducts(userId);
+            var totalPriceOfItems = _cartService.GetTotalPriceOfCartItems(1);
+            string json1 = JsonSerializer.Serialize(cartItems);
+            string json2 = JsonSerializer.Serialize(totalPriceOfItems);
             string jsonString = "[" + json1 + "," + json2 + "]";
             return Ok(jsonString);
         }
@@ -34,6 +51,8 @@ namespace Codecool.CodecoolShop.Controllers
             ViewBag.totalPriceOfItems = totalPriceOfItems;
             return View();
         }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

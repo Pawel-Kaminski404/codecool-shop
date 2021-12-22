@@ -16,7 +16,7 @@
     <tbody>
     <tr>
       <td style="padding: 20px;">Items</td>
-      <td style="text-align: right; padding: 20px;">@ViewBag.totalPriceOfItems.ToString("C2")</td>
+      <td style="text-align: right; padding: 20px;" class="total-Price">@ViewBag.totalPriceOfItems.ToString("C2")</td>
     </tr>
     <tr>
       <td style="padding: 20px;">Shipping</td>
@@ -24,22 +24,23 @@
     </tr>
     <tr>
       <td style="padding: 20px; font-weight: bold;">Total Amount</td>
-      <td style="text-align: right; padding: 20px; font-weight: bold;">@ViewBag.totalPriceOfItems.ToString("C2")</td>
+      <td style="text-align: right; padding: 20px; font-weight: bold;" class="total-Price">@ViewBag.totalPriceOfItems.ToString("C2")</td>
     </tr>
     </tbody>
   </table>
-  <div style="text-align: center; margin-top: -10px"><button class="checkout-button">Checkout</button></div>
+  <div style="text-align: center; margin-top: -10px"><a class="checkout-button" asp-controller="Checkout" asp-action="Index">Checkout</a></div>
 </div>
 
 <div class="shopping-cart" style="margin-left: 2%">
   <div class="title">
     Shopping Bag
   </div>
+  <div id="ShoppingBag">
 @foreach (var element in ViewBag.CartItems)
 {
   <div class="item">
     <div class="buttons">
-      <svg onclick ="deleteFromCart(el)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="delete-btn bi bi-x-lg" viewBox="0 0 16 16">
+      <svg onclick ="deleteFromCart(@element.Id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="delete-btn bi bi-x-lg" viewBox="0 0 16 16">
         <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
         <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
       </svg>
@@ -72,6 +73,7 @@
     <div class="total-price" style="font-weight: bold">@element.DefaultPrice.ToString("C2")</div>
   </div>
 }
+</div>
 
 </div>
 </div>
