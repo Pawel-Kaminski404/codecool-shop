@@ -27,6 +27,7 @@ namespace Codecool.CodecoolShop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages();
             services.AddSingleton<IDbConnectionService, DbConnectionService>();
             services.AddTransient<IProductCategoryDao, ProductCategoryDaoDb>();
             services.AddTransient<IProductService, ProductService>();
@@ -53,6 +54,7 @@ namespace Codecool.CodecoolShop
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -60,6 +62,7 @@ namespace Codecool.CodecoolShop
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Product}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
 
             SetupInMemoryDatabases();
