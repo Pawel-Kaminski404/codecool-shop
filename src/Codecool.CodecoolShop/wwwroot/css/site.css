@@ -81,3 +81,9 @@ body {
 .move-middle {
   text-align: center;
 }
+
+.error{
+  border-color: orangered;
+  color: darkred;
+}
+

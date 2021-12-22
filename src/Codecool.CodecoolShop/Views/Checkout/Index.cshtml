@@ -2,34 +2,46 @@
     ViewData["Title"] = "Chceckout";
 }
 
-<form action="sendCheckout" method="post">
+<form action="SendCheckout" method="post">
+
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" name="name" placeholder="Joe Doe">
+        <input type="text" class="form-control" id="name" name="Name" placeholder="Jan Kowalski" onfocusin="NameValidateClear()" onfocusout="NameValidate()">
+        <span class="error" id="nameError"></span>
     </div>
+    
     <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" class="form-control" name="email" placeholder="joe.doe@gmail.com">
+        <input type="email" class="form-control" id="email" name="Email" placeholder="jan.kowalski@gmail.com" onfocusin="EmailValidateClear()" onfocusout="EmailValidate()">
+        <span class="error" id="emailError"></span>
     </div>
+    
     <div class="form-group">
         <label for="phoneNumber">Phone Number</label>
-        <input type="text" class="form-control" name="phoneNumber" placeholder="123456789">
+        <input type="text" class="form-control" id="phoneNumber" name="PhoneNumber" placeholder="123456789" onfocusin="PhoneNumberValidateClear()" onfocusout="PhoneNumberValidate()">
+        <span class="error" id="phoneNumberError"></span>
     </div>
+    
     <div class="form-group">
         <label for="address">Address</label>
-        <input type="text" class="form-control" name="address" placeholder="4651 Maplewood">
+        <input type="text" class="form-control" id="address" name="Address" placeholder="Ulica Stanisława Worcella 5/20" onfocusin="AddressValidateClear()" onfocusout="AddressValidate()">
+        <span class="error" id="addressError"></span>
     </div>
     <div class="form-group">
         <label for="zipCode">Zip code</label>
-        <input type="text" class="form-control" name="zipCode" placeholder="90004-1963">
+        <input type="text" class="form-control" id="zipCode" name="ZipCode" placeholder="01-250" onfocusin="ZipCodeValidateClear()" onfocusout="ZipCodeValidate()">
+        <span class="error" id="zipCodeError"></span>
     </div>
+    @* select jak bedzie czas *@
     <div class="form-group">
         <label for="country">Country</label>
-        <input type="text" class="form-control" name="country" placeholder="USA">
+        <input type="text" class="form-control" id="country" name="Country" placeholder="Polska" onfocusin="CountryValidateClear()" onfocusout="CountryValidate()">
+        <span class="error" id="countryError"></span>
     </div>
     <div class="form-group">
         <label for="city">City</label>
-        <input type="text" class="form-control" name="city" placeholder="Los Angeles">
+        <input type="text" class="form-control" id="city" name="City" placeholder="Warszawa" onfocusin="CityValidateClear()" onfocusout="CityValidate()">
+        <span class="error" id="cityError"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="button" onclick="SubmitCheckout()" class="btn btn-primary">Submit</button>
 </form>

@@ -12,16 +12,19 @@ namespace Codecool.CodecoolShop.Controllers
         private ICheckoutDao _checkoutDao = CheckoutDaoMemory.GetInstance();
         private IUserDao _userDao = UserDaoMemory.GetInstance();
 
-        [ActionName("sendCheckout")]
-        public IActionResult SendCheckout([FromForm] int userId, [FromForm] string name, [FromForm] string email, [FromForm] string phoneNumber,
-            [FromForm] string address, [FromForm] string zipCode, [FromForm] string country, [FromForm] string city)
+        [HttpPost]
+        public IActionResult SendCheckout([FromBody] Checkout checkout)
         {
-            Checkout checkout = new Checkout(name, email, phoneNumber, address, zipCode, country, city); 
-            _checkoutDao.Add(checkout);
-            _userDao.Get(userId).SetCheckout(checkout);
-            
+            if (checkout.Validate())
+            {
+                _checkoutDao.Add(checkout);
+                _userDao.Get(1).SetCheckout(checkout);
+                return Ok();
+            }
+
+            return Unauthorized();
             // return RedirectToAction("Index","Payment");
-            return Ok();
+
         }
 
         public IActionResult Index()
