@@ -2,29 +2,41 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+/*document.addEventListener("load",()=> {*/
 
-async function RefreshProducts(filter)
-{
-    let url = "";
-    if (filter == 'category') {
-        let category = document.getElementById("categories").value;
-        url = `/getProducts?filter=${category}&filterBy=category`;
+window.addEventListener("load", () => {
+     navbarCounterDisplay();
+})
+    async function navbarCounterDisplay() {
+        await fetch(`/GetCartAmount?userId=1`)
+            .then(response => response.json())
+            .then(data => ChangeNavbarContent(data));
     }
-    else {
-        let suplier = document.getElementById("supliers").value;
-        url = `/getProducts?filter=${suplier}&filterBy=supplier`;
-    }
-    await fetch(url)
-        .then(response => response.json())
-        .then(data => DisplayContent(data));
-}
 
-async function DisplayContent(data)
-{
-    document.getElementById("productContainer").innerHTML = "";
-    for (item in data)
-    {
-        document.getElementById("productContainer").innerHTML += `<div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 350px">
+    async function ChangeNavbarContent(data) {
+        let cartItemsCounter = document.getElementById("shoppingCart");
+        cartItemsCounter.innerHTML = `<img src="/img/ShoppingCartIcon.png" style="width: 20px; height: 20px"/> ${data}`
+    }
+    
+    
+    async function RefreshProducts(filter) {
+        let url = "";
+        if (filter == 'category') {
+            let category = document.getElementById("categories").value;
+            url = `/getProducts?filter=${category}&filterBy=category`;
+        } else {
+            let suplier = document.getElementById("supliers").value;
+            url = `/getProducts?filter=${suplier}&filterBy=supplier`;
+        }
+        await fetch(url)
+            .then(response => response.json())
+            .then(data => DisplayContent(data));
+    }
+
+    async function DisplayContent(data) {
+        document.getElementById("productContainer").innerHTML = "";
+        for (item in data) {
+            document.getElementById("productContainer").innerHTML += `<div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 350px; margin-bottom: 200px;">
             <div class="card">
                 <img src="img/${data[item].Name}.jpg" style="height: 50%; width: 50%; align-self: center; padding-top: 10px">
 
@@ -42,15 +54,9 @@ async function DisplayContent(data)
                 </div>
             </div>
         </div>`;
+        }
     }
 }
-
-
-
-/*window.onload = function() {
-    ChangeCartContent(data)
-}*/
-
 
 async function addToCart(id) {
     await fetch(`/addProduct?id=${id}&userId=1`)
@@ -58,17 +64,18 @@ async function addToCart(id) {
         .then(data => ChangeCartContent(data));
 }
 
-async function deleteFromCart(id) {
-    await fetch(`/deleteProduct?id=${id}&userId=1`)
-        .then(response => response.json())
-        .then(data => ChangeCartBagContent(data))
-}
 
-async function ChangeCartBagContent(data) {
-    document.getElementById("ShoppingBag").innerHTML = "";
-    console.log(data)
-    for (let item in data[0]) {
-        document.getElementById("ShoppingBag").innerHTML += `<div class="item">
+    async function deleteFromCart(id) {
+        await fetch(`/deleteProduct?id=${id}&userId=1`)
+            .then(response => response.json())
+            .then(data => ChangeCartBagContent(data))
+    }
+
+    async function ChangeCartBagContent(data) {
+        document.getElementById("ShoppingBag").innerHTML = "";
+        await navbarCounterDisplay();
+        for (let item in data[0]) {
+            document.getElementById("ShoppingBag").innerHTML += `<div class="item">
     <div class="buttons">
       <svg onclick ="deleteFromCart(${data[0][item].Id})" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="delete-btn bi bi-x-lg" viewBox="0 0 16 16">
         <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
@@ -101,14 +108,14 @@ async function ChangeCartBagContent(data) {
 
     <div class="total-price" style="font-weight: bold">${data[0][item].DefaultPrice.toFixed(2)} zł</div>
   </div>`
+        }
+        let TotalPrices = document.getElementsByClassName("total-Price")
+        console.log(TotalPrices)
+        for (let item in TotalPrices) {
+            TotalPrices[item].innerHTML = data[1].toFixed(2) + " zł";
+        }
+
     }
-    let TotalPrices = document.getElementsByClassName("total-Price")
-    console.log(TotalPrices)
-    for (let item in TotalPrices) {
-        TotalPrices[item].innerHTML = data[1].toFixed(2) + " zł";
-    }
-    
-}
 
 
 async function ChangeCartContent(data) {

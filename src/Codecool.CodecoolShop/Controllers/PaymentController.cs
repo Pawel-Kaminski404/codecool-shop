@@ -11,8 +11,6 @@ namespace Codecool.CodecoolShop.Controllers
     public class PaymentController : Controller
     {
         private readonly ILogger<PaymentController> _logger;
-        private PaymentService _paymentService = new PaymentService(ProductDaoMemory.GetInstance(), UserDaoMemory.GetInstance());
-        private CartService _cartService = new CartService(ProductDaoMemory.GetInstance(), UserDaoMemory.GetInstance());
 
         public PaymentController(ILogger<PaymentController> logger)
         {

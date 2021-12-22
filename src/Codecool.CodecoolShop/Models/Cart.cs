@@ -6,9 +6,15 @@ namespace Codecool.CodecoolShop.Models
     {
         private List<Product> _listOfProducts = new List<Product>();
         
+        
         public List<Product> GetListOfProducts()
         {
             return _listOfProducts;
+        }
+
+        public int GetProductsAmountInCart()
+        {
+            return _listOfProducts.Count;
         }
     }
 }

@@ -1,13 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Data.Common;
+using Codecool.CodecoolShop.Controllers;
 using Codecool.CodecoolShop.Daos;
 using Codecool.CodecoolShop.Daos.Implementations;
 using Codecool.CodecoolShop.Models;
+using Codecool.CodecoolShop.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,12 +20,20 @@ namespace Codecool.CodecoolShop
             Configuration = configuration;
         }
 
+        public IDbConnectionService dbConnectionService { get; }
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages();
+            services.AddSingleton<IDbConnectionService, DbConnectionService>();
+            services.AddTransient<IProductCategoryDao, ProductCategoryDaoDb>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IProductDao, ProductDaoDb>();
+            services.AddTransient<ISupplierDao, SupplierDaoDb>();
+            services.AddTransient<ICartService, CartService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +54,7 @@ namespace Codecool.CodecoolShop
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -54,33 +62,20 @@ namespace Codecool.CodecoolShop
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Product}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
 
             SetupInMemoryDatabases();
+            DbProviderFactories.RegisterFactory("System.Data.SqlClient", SqlClientFactory.Instance);
         }
 
         private void SetupInMemoryDatabases()
         {
-            IProductDao productDataStore = ProductDaoMemory.GetInstance();
-            IProductCategoryDao productCategoryDataStore = ProductCategoryDaoMemory.GetInstance();
-            ISupplierDao supplierDataStore = SupplierDaoMemory.GetInstance();
             IUserDao userDataStore = UserDaoMemory.GetInstance();
             
-            Supplier amazon = new Supplier{Name = "Amazon", Description = "Digital content and services"};
-            supplierDataStore.Add(amazon);
-            Supplier lenovo = new Supplier{Name = "Lenovo", Description = "Computers"};
-            supplierDataStore.Add(lenovo);
-            ProductCategory tablet = new ProductCategory {Name = "Tablet", Department = "Hardware", Description = "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display." };
-            productCategoryDataStore.Add(tablet);
-            ProductCategory laptop = new ProductCategory { Name = "Laptop", Department = "Hardware", Description = "A laptop computer, is a thin, flat computer." };
-            productCategoryDataStore.Add(laptop);
             // przed demo zmien hasło XD
             User user = new User("Paweł", "pawel.kaminski@interia.pl", "LubieJJa1@");
             userDataStore.Add(user);
-            productDataStore.Add(new Product { Name = "Amazon Fire", DefaultPrice = 49.9m, Currency = "USD", Description = "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", ProductCategory = tablet, Supplier = amazon });
-            productDataStore.Add(new Product { Name = "Lenovo IdeaPad Miix 700", DefaultPrice = 479.0m, Currency = "USD", Description = "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", ProductCategory = laptop, Supplier = lenovo });
-            productDataStore.Add(new Product { Name = "Amazon Fire HD 8", DefaultPrice = 89.0m, Currency = "USD", Description = "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", ProductCategory = tablet, Supplier = amazon });
-            productDataStore.Add(new Product { Name = "Amazon Laptok 200", DefaultPrice = 892.0m, Currency = "USD", Description = "Bardzo fajny laptok serdzecznie polecam", ProductCategory = laptop, Supplier = amazon });
         }
     }
 }

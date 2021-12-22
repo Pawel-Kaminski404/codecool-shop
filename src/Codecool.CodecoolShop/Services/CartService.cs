@@ -7,15 +7,14 @@ using Codecool.CodecoolShop.Models;
 
 namespace Codecool.CodecoolShop.Services
 {
-    public class CartService
+    public class CartService : ICartService
     {
         private readonly IProductDao _productDao;
-        private readonly IUserDao _userDao;
+        private readonly IUserDao _userDao = UserDaoMemory.GetInstance();
 
-        public CartService(IProductDao productDao, IUserDao userDao)
+        public CartService(IProductDao productDao)
         {
             _productDao = productDao;
-            _userDao = userDao;
         }
 
         public void AddToCart(int id, int userId)

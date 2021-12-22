@@ -2,15 +2,15 @@
     ViewData["Title"] = "Home Page";
 }
 
-@model List<Codecool.CodecoolShop.Models.Product>
+@model (List<Codecool.CodecoolShop.Models.Product>, List<Codecool.CodecoolShop.Models.ProductCategory>, List<Codecool.CodecoolShop.Models.Supplier>)
 
     <form>
         <label for="categories">Choose a category:</label>
             <select id="categories">
-                <option value="All">All</option>;
-                @foreach (var item in ProductCategoryDaoMemory.GetInstance().GetAll())
+                <option value="0">All</option>;
+                @foreach (var item in Model.Item2)
                 {
-                    <option value="@item.Name">@item.Name</option>;
+                    <option value="@item.Id">@item.Name</option>;
                 }
             </select>
         <button type="button" onclick="RefreshProducts('category')">Refresh</button>
@@ -18,25 +18,25 @@
     <form>
         <label for="supliers">Choose a suplier:</label>
             <select id="supliers">
-                <option value="All">All</option>;
-                @foreach (var item in SupplierDaoMemory.GetInstance().GetAll())
+                <option value="0">All</option>;
+                @foreach (var item in Model.Item3)
                 {
-                    <option value="@item.Name">@item.Name</option>;
+                    <option value="@item.Id">@item.Name</option>;
                 }
             </select>
         <button type="button" onclick="RefreshProducts('supplier')">Refresh</button>
     </form>
 <div class="container" id="productContainer">
-    @foreach (var element in Model)
+    @foreach (var element in Model.Item1)
     {
-        <div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 350px">
+        <div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 350px; margin-bottom: 200px;";>
             <div class="card">
                 <img src="/img/@(element.Name).jpg" style="height: 50%; width: 50%; align-self: center; padding-top: 10px">
 
                 <div class="card-body">
                     <h5 class="card-title text-center">
                         Product
-                        @{ var num = Model.IndexOf(element) + 1;}
+                        @{ var num = Model.Item1.IndexOf(element) + 1;}
                         @num
                     </h5>
                     <h5 class="card-title">@element.Name</h5>
@@ -50,25 +50,7 @@
         </div>
     }
     
-    <div class="modal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>Modal body text goes here.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Save changes</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    
 
 
 </div>
