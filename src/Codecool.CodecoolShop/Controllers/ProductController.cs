@@ -54,10 +54,12 @@ namespace Codecool.CodecoolShop.Controllers
             _logger.LogDebug(filter.ToString());
             if (filterBy == "category")
             {
+                _logger.LogDebug("category");
                 products = ProductService.GetProductsForCategory(filter);
             }
             else
             {
+                _logger.LogDebug("supplier");
                 products = ProductService.GetProductsForSupplier(filter);
             }
             string jsonString = JsonSerializer.Serialize(products);

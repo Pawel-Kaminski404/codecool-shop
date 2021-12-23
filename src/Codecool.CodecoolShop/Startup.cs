@@ -72,9 +72,7 @@ namespace Codecool.CodecoolShop
         private void SetupInMemoryDatabases()
         {
             IUserDao userDataStore = UserDaoMemory.GetInstance();
-            
-            // przed demo zmien hasło XD
-            User user = new User("Paweł", "pawel.kaminski@interia.pl", "LubieJJa1@");
+            User user = new User("Paweł", "pawel.kaminski@interia.pl", "LubieMleko");
             userDataStore.Add(user);
         }
     }

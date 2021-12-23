@@ -100,9 +100,8 @@ namespace Codecool.CodecoolShop.Daos
                 conn.Open();
                 var command = conn.CreateCommand();
                 command.Connection = conn;
-                command.CommandText = $@"SELECT * FROM products AS p
-                                        JOIN suppliers AS s ON p.ProductCategoryId=s.Id
-                                        WHERE s.Name='{supplier.Name}';";
+                command.CommandText = $@"SELECT * FROM products
+                                        WHERE SupplierId={supplier.Id};";
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
