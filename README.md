@@ -1,5 +1,13 @@
 # Codecool shop (sprint 1)
 
+
+## Setup
+
+- first execute query from file initDatabase.txt in SSMS
+- change server name both in "DefaultConnectionString" and "CodecoolCodecoolShopContextConnection" in appsettings.json
+- now open Package Manager Console and type "Update-Database" to initialise Identity database
+- feel free to run the app!
+
 ## Story
 
 Everyone loves to buy and sell stuff, but we need a shop for that! In this
